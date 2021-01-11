@@ -27,52 +27,19 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
-//    @GetMapping
-//    public List<Player> getPlayers() {
-//        return playerService.getPlayers();
+//    @PostMapping(value = "/score")
+//    public ResponseEntity<Object> register(@RequestBody @Valid PlayerDto playerDto) {
+//        Player savePlayer = playerService.savePlayer(playerDto);
+//        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savePlayer.getId()).toUri();
+//
+//        return ResponseEntity.created(location).build();
+////        return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
 //    }
 
-//    @PostMapping("score")
-//    public void register(@RequestBody Player player){
-//        playerService.savePlayer(player);
-//    }
-
-    @PostMapping(value = "/score1")
-    public ResponseEntity<Object> register(@RequestBody @Valid PlayerDto playerDto) {
-        Player savePlayer = playerService.savePlayer(playerDto);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savePlayer.getId()).toUri();
-
-        return ResponseEntity.created(location).build();
-//        return new ResponseEntity<>("Product is created successfully", HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/score2", method = RequestMethod.POST)
+    @RequestMapping(value = "/score", method = RequestMethod.POST)
     public Player register2(@RequestBody @Valid PlayerDto playerDto) {
         Player savePlayer = playerService.savePlayer(playerDto);
         return savePlayer;
-    }
-
-    @PostMapping("/score3")
-    public String register3(@RequestBody @Valid PlayerDto playerDto, Errors errors) throws Exception{
-        if (errors.hasErrors()) {
-            // Extract ConstraintViolation list from body errors
-            List<ConstraintViolation<?>> violationsList = new ArrayList<>();
-            for (ObjectError e : errors.getAllErrors()) {
-                violationsList.add(e.unwrap(ConstraintViolation.class));
-            }
-
-            String exceptionMessage = "";
-
-            // Construct a helpful message for each input violation
-            for (ConstraintViolation<?> violation : violationsList) {
-                exceptionMessage += violation.getPropertyPath() + " " + violation.getMessage() + "\n";
-            }
-            throw new Exception(String.format("Request input is invalid:\n%s", exceptionMessage));
-        }
-
-        return ":)";
-//        Player savePlayer = playerService.savePlayer(playerDto);
-//        return ResponseEntity.ok("User is valid");
     }
 
     @GetMapping("/score")
